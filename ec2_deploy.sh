@@ -2,7 +2,7 @@
 
 EC2_USER=ubuntu
 EC2_HOST=44.203.172.65
-KEY_PATH=/root/.ssh/my-key.pem
+KEY_PATH=/root/.ssh/aws-key.pem
 
 # Upload app and requirements.txt
 scp -i $KEY_PATH -o StrictHostKeyChecking=no -r ./app $EC2_USER@$EC2_HOST:/home/ubuntu/
