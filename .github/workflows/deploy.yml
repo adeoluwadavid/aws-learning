@@ -17,6 +17,8 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/aws_key.pem
           chmod 600 ~/.ssh/aws_key.pem
+          echo "🔒 First line of key file:"
+          head -n 1 ~/.ssh/aws_key.pem
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy to EC2
