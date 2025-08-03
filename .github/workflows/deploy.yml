@@ -16,7 +16,7 @@ jobs:
       - name: Set up SSH key
         run: |
           mkdir -p ~/.ssh
-          echo I love you
+          echo I love you too
           echo "${{ secrets.EC2_KEY_BASE64 }}" | base64 -d > ~/.ssh/aws_key.pem
           
       # - name: Set up SSH key
