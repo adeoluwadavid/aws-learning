@@ -1,29 +1,43 @@
 # Python
 __pycache__/
 *.py[cod]
-*.egg
-*.egg-info/
-dist/
-build/
-
-# Environment
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+*.db
 .env
-*.pem
+.pytest_cache/
+.coverage
+htmlcov/
 
-# VSCode
+# Node
+node_modules/
+dist/
+.env.local
+*.log
+.pnpm-store/
+
+# IDE
+.idea/
 .vscode/
+*.swp
+*.swo
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Logs
-*.log
+# Uploads
+uploads/
 
-# Zip archives
-*.zip
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
 
-# Python virtual envs
-venv/
-.env/
-.venv/
+# CDK
+cdk.out/
