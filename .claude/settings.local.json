@@ -1,7 +1,14 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nPhase 0: Local development setup for TaskFlow\n\n- React 18 + TypeScript + Vite frontend with TailwindCSS\n- FastAPI backend with SQLite, JWT auth, and file uploads\n- Docker Compose for local development\n- Task management features: CRUD, assignments, priorities, due dates\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git push)",
+      "Bash(terraform --version:*)",
+      "Bash(aws:*)",
+      "Bash(curl:*)",
+      "Bash(cat:*)",
+      "Bash(AWS_DEFAULT_REGION=us-east-1 aws sts:*)"
     ],
     "deny": [],
     "ask": []
