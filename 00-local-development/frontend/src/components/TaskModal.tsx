@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { tasks, users } from '../lib/api';
+import { FileAttachments } from './FileAttachments';
 import type { TaskPriority, TaskStatus } from '../types';
 
 interface TaskModalProps {
@@ -79,7 +80,7 @@ export function TaskModal({ taskId, onClose }: TaskModalProps) {
 
   return (
     <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+      <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
         <form onSubmit={handleSubmit}>
           <div className="px-6 py-4 border-b border-gray-200">
             <h3 className="text-lg font-medium text-gray-900">
@@ -162,6 +163,11 @@ export function TaskModal({ taskId, onClose }: TaskModalProps) {
                 ))}
               </select>
             </div>
+
+            {/* File Attachments - only show when editing an existing task */}
+            {isEditing && task && (
+              <FileAttachments taskId={taskId} attachmentList={task.attachments || []} />
+            )}
           </div>
 
           <div className="px-6 py-4 border-t border-gray-200 flex justify-end space-x-3">

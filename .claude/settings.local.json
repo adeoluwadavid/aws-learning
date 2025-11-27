@@ -8,7 +8,9 @@
       "Bash(aws:*)",
       "Bash(curl:*)",
       "Bash(cat:*)",
-      "Bash(AWS_DEFAULT_REGION=us-east-1 aws sts:*)"
+      "Bash(AWS_DEFAULT_REGION=us-east-1 aws sts:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nPhase 1: Core infrastructure with Terraform\n\n- VPC with public/private subnets across 2 AZs\n- Internet Gateway and NAT Gateway\n- Security groups for ALB, App, and Database\n- IAM roles for ECS and Lambda execution\n- Detailed README with architecture diagrams\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git commit -m \"$(cat <<''EOF''\nPhase 2: S3 storage basics with file upload UI\n\n- Add S3 bucket Terraform config with versioning, encryption, CORS\n- Create storage abstraction layer (local/S3) in backend\n- Add FileAttachments component for upload/delete in frontend\n- Fix task delete authorization (allow creator OR assignee)\n- Add cascade file deletion when task is deleted\n- Add boto3 dependency and S3 configuration settings\n- Update README to mark Phases 0, 1, 2 as complete\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
     ],
     "deny": [],
     "ask": []

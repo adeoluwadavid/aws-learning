@@ -8,6 +8,7 @@ import type {
   AuthToken,
   LoginInput,
   RegisterInput,
+  Attachment,
 } from '../types';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
@@ -100,12 +101,18 @@ export const users = {
 
 // Attachment endpoints
 export const attachments = {
-  upload: async (taskId: number, file: File): Promise<void> => {
+  list: async (taskId: number): Promise<Attachment[]> => {
+    const response = await api.get(`/tasks/${taskId}/attachments`);
+    return response.data;
+  },
+
+  upload: async (taskId: number, file: File): Promise<Attachment> => {
     const formData = new FormData();
     formData.append('file', file);
-    await api.post(`/tasks/${taskId}/attachments`, formData, {
+    const response = await api.post(`/tasks/${taskId}/attachments`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
+    return response.data;
   },
 
   delete: async (taskId: number, attachmentId: number): Promise<void> => {

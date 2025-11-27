@@ -11,8 +11,8 @@ A hands-on, project-based approach to learning AWS services by building a full-s
 | Phase | Folder | Services | Status |
 |-------|--------|----------|--------|
 | 0 | `00-local-development/` | React, FastAPI, Docker | ✅ Complete |
-| 1 | `01-core-infrastructure/` | VPC, IAM | ⏳ Pending |
-| 2 | `02-storage-basics/` | S3 | ⏳ Pending |
+| 1 | `01-core-infrastructure/` | VPC, IAM | ✅ Complete |
+| 2 | `02-storage-basics/` | S3 | ✅ Complete |
 | 3 | `03-database-layer/` | RDS / DynamoDB | ⏳ Pending |
 | 4 | `04-containerization/` | ECR | ⏳ Pending |
 | 5 | `05-compute-ecs/` | ECS, Fargate | ⏳ Pending |

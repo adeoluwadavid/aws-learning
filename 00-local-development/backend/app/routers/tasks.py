@@ -7,6 +7,7 @@ from app.auth import get_current_active_user
 from app.database import get_db
 from app.models import Task, User, TaskStatus
 from app.schemas import TaskCreate, TaskUpdate, TaskResponse, TaskListResponse
+from app.storage import get_storage
 
 router = APIRouter(prefix="/tasks", tags=["Tasks"])
 
@@ -98,12 +99,19 @@ def delete_task(
             detail="Task not found"
         )
 
-    # Only creator can delete
-    if task.creator_id != current_user.id:
+    # Allow creator or assignee to delete
+    if task.creator_id != current_user.id and task.assignee_id != current_user.id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Not authorized to delete this task"
         )
 
+    # Delete attachment files from storage before deleting task
+    if task.attachments:
+        storage = get_storage()
+        for attachment in task.attachments:
+            storage.delete_file(attachment.file_path)
+
+    # Delete task (attachments cascade delete from DB)
     db.delete(task)
     db.commit()

@@ -1,19 +1,23 @@
-import os
-import shutil
+# =============================================================================
+# ATTACHMENTS ROUTER
+# =============================================================================
+# Handles file uploads and downloads for task attachments.
+# Supports both local storage and S3 based on configuration.
+
 from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
+from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 
 from app.auth import get_current_active_user
+from app.config import settings
 from app.database import get_db
 from app.models import Task, User, Attachment
 from app.schemas import AttachmentResponse
+from app.storage import get_storage
 
 router = APIRouter(prefix="/tasks/{task_id}/attachments", tags=["Attachments"])
-
-UPLOAD_DIR = "uploads"
-os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 
 @router.get("", response_model=List[AttachmentResponse])
@@ -22,6 +26,7 @@ def get_attachments(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
+    """List all attachments for a task."""
     task = db.query(Task).filter(Task.id == task_id).first()
     if not task:
         raise HTTPException(
@@ -38,6 +43,11 @@ async def upload_attachment(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
+    """
+    Upload a file attachment to a task.
+
+    The file is stored either locally or in S3 based on the USE_S3 setting.
+    """
     task = db.query(Task).filter(Task.id == task_id).first()
     if not task:
         raise HTTPException(
@@ -45,17 +55,17 @@ async def upload_attachment(
             detail="Task not found"
         )
 
-    # Create task-specific directory
-    task_upload_dir = os.path.join(UPLOAD_DIR, str(task_id))
-    os.makedirs(task_upload_dir, exist_ok=True)
+    # Get storage backend (local or S3)
+    storage = get_storage()
 
-    # Save file
-    file_path = os.path.join(task_upload_dir, file.filename)
-    with open(file_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
-
-    # Get file size
-    file_size = os.path.getsize(file_path)
+    # Upload file
+    folder = f"tasks/{task_id}"
+    file_path, file_size = storage.upload_file(
+        file=file.file,
+        filename=file.filename,
+        folder=folder,
+        content_type=file.content_type
+    )
 
     # Create attachment record
     attachment = Attachment(
@@ -72,13 +82,19 @@ async def upload_attachment(
     return attachment
 
 
-@router.delete("/{attachment_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_attachment(
+@router.get("/{attachment_id}/download")
+def download_attachment(
     task_id: int,
     attachment_id: int,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
+    """
+    Get a download URL for an attachment.
+
+    For S3: Returns a pre-signed URL (temporary, secure access)
+    For local: Redirects to the file serving endpoint
+    """
     attachment = db.query(Attachment).filter(
         Attachment.id == attachment_id,
         Attachment.task_id == task_id
@@ -90,9 +106,40 @@ def delete_attachment(
             detail="Attachment not found"
         )
 
-    # Delete file from disk
-    if os.path.exists(attachment.file_path):
-        os.remove(attachment.file_path)
+    storage = get_storage()
+    download_url = storage.get_download_url(attachment.file_path)
 
+    if settings.USE_S3:
+        # Redirect to S3 pre-signed URL
+        return RedirectResponse(url=download_url)
+    else:
+        # For local storage, return the URL
+        return {"download_url": download_url, "filename": attachment.filename}
+
+
+@router.delete("/{attachment_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_attachment(
+    task_id: int,
+    attachment_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_active_user)
+):
+    """Delete an attachment from a task."""
+    attachment = db.query(Attachment).filter(
+        Attachment.id == attachment_id,
+        Attachment.task_id == task_id
+    ).first()
+
+    if not attachment:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Attachment not found"
+        )
+
+    # Delete file from storage
+    storage = get_storage()
+    storage.delete_file(attachment.file_path)
+
+    # Delete database record
     db.delete(attachment)
     db.commit()
