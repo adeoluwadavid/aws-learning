@@ -13,7 +13,7 @@ A hands-on, project-based approach to learning AWS services by building a full-s
 | 0 | `00-local-development/` | React, FastAPI, Docker | ✅ Complete |
 | 1 | `01-core-infrastructure/` | VPC, IAM | ✅ Complete |
 | 2 | `02-storage-basics/` | S3 | ✅ Complete |
-| 3 | `03-database-layer/` | RDS / DynamoDB | ⏳ Pending |
+| 3 | `03-database-layer/` | RDS PostgreSQL, Secrets Manager | ✅ Complete |
 | 4 | `04-containerization/` | ECR | ⏳ Pending |
 | 5 | `05-compute-ecs/` | ECS, Fargate | ⏳ Pending |
 | 6 | `06-networking/` | ALB, Route 53, CloudFront | ⏳ Pending |

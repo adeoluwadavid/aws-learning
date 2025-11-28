@@ -4,6 +4,8 @@ from typing import Optional
 
 class Settings(BaseSettings):
     APP_NAME: str = "TaskFlow"
+    # Database: SQLite for local dev, PostgreSQL for AWS
+    # PostgreSQL format: postgresql://user:pass@host:5432/dbname
     DATABASE_URL: str = "sqlite:///./taskflow.db"
     SECRET_KEY: str = "dev-secret-key-change-in-production"
     ALGORITHM: str = "HS256"
@@ -18,8 +20,16 @@ class Settings(BaseSettings):
     AWS_ACCESS_KEY_ID: Optional[str] = None
     AWS_SECRET_ACCESS_KEY: Optional[str] = None
 
+    # Secrets Manager (for production database credentials)
+    USE_SECRETS_MANAGER: bool = False
+    DB_SECRET_NAME: Optional[str] = None
+
     class Config:
         env_file = ".env"
+
+    @property
+    def is_sqlite(self) -> bool:
+        return self.DATABASE_URL.startswith("sqlite")
 
 
 settings = Settings()
