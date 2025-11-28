@@ -16,7 +16,9 @@
       "Bash(AWS_DEFAULT_REGION=us-east-1 aws ec2 describe-vpcs:*)",
       "Bash(AWS_DEFAULT_REGION=us-east-1 aws ec2 describe-subnets:*)",
       "Bash(AWS_DEFAULT_REGION=us-east-1 aws ec2 describe-security-groups:*)",
-      "Bash(git commit -m \"$(cat <<''EOF''\nPhase 3: RDS PostgreSQL with Secrets Manager\n\n- Add RDS PostgreSQL Terraform config (db.t3.micro)\n- Add Secrets Manager for secure credential storage\n- Add CloudWatch alarms for CPU and storage monitoring\n- Update FastAPI to support both SQLite (local) and PostgreSQL (AWS)\n- Add psycopg2-binary for PostgreSQL connectivity\n- Backend auto-detects database type from environment\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
+      "Bash(git commit -m \"$(cat <<''EOF''\nPhase 3: RDS PostgreSQL with Secrets Manager\n\n- Add RDS PostgreSQL Terraform config (db.t3.micro)\n- Add Secrets Manager for secure credential storage\n- Add CloudWatch alarms for CPU and storage monitoring\n- Update FastAPI to support both SQLite (local) and PostgreSQL (AWS)\n- Add psycopg2-binary for PostgreSQL connectivity\n- Backend auto-detects database type from environment\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(chmod:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []
