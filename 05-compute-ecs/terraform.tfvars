@@ -13,20 +13,20 @@ project_name = "taskflow"
 # Get these values by running:
 #   cd ../01-core-infrastructure && terraform output
 
-vpc_id = "vpc-XXXXX"  # UPDATE with your VPC ID
+vpc_id = "vpc-0719d930f39fe426a"  # UPDATE with your VPC ID
 
 public_subnet_ids = [
-  "subnet-XXXXX",  # UPDATE with your public subnet IDs
-  "subnet-XXXXX"
+  "subnet-02c436665cd05b517",  # UPDATE with your public subnet IDs
+  "subnet-0bb64ecc33cf9507c"
 ]
 
 private_subnet_ids = [
-  "subnet-XXXXX",  # UPDATE with your private subnet IDs
-  "subnet-XXXXX"
+  "subnet-084879e710bb2ee8f",  # UPDATE with your private subnet IDs
+  "subnet-02f880911451391c1"
 ]
 
-alb_security_group_id = "sg-XXXXX"  # UPDATE with your ALB security group ID
-app_security_group_id = "sg-XXXXX"  # UPDATE with your App security group ID
+alb_security_group_id = "sg-0439d932c40690bea"  # UPDATE with your ALB security group ID
+app_security_group_id = "sg-01a6140112aa9c993"  # UPDATE with your App security group ID
 
 # -----------------------------------------------------------------------------
 # ECR References (from Phase 4)
@@ -34,8 +34,8 @@ app_security_group_id = "sg-XXXXX"  # UPDATE with your App security group ID
 # Get these values by running:
 #   cd ../04-containerization && terraform output
 
-backend_repository_url  = "ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/taskflow-dev-backend"   # UPDATE
-frontend_repository_url = "ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/taskflow-dev-frontend"  # UPDATE
+backend_repository_url  = "871253127893.dkr.ecr.us-east-1.amazonaws.com/taskflow-dev-backend"   # UPDATE
+frontend_repository_url = "871253127893.dkr.ecr.us-east-1.amazonaws.com/taskflow-dev-frontend"  # UPDATE
 
 # -----------------------------------------------------------------------------
 # Database References (from Phase 3)
@@ -43,7 +43,7 @@ frontend_repository_url = "ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/taskflow-d
 # Get this value by running:
 #   cd ../03-database-layer && terraform output db_secret_arn
 
-db_secret_arn = "arn:aws:secretsmanager:us-east-1:ACCOUNT_ID:secret:taskflow-dev-db-credentials-XXXXX"  # UPDATE
+db_secret_arn = "arn:aws:secretsmanager:us-east-1:871253127893:secret:taskflow-dev-db-credentials-vwlrIT"  # UPDATE
 
 # -----------------------------------------------------------------------------
 # S3 References (from Phase 2)
@@ -51,7 +51,7 @@ db_secret_arn = "arn:aws:secretsmanager:us-east-1:ACCOUNT_ID:secret:taskflow-dev
 # Get this value by running:
 #   cd ../02-storage-basics && terraform output
 
-s3_bucket_name = "taskflow-dev-attachments-ACCOUNT_ID"  # UPDATE
+s3_bucket_name = "taskflow-dev-attachments-871253127893"  # UPDATE
 
 # -----------------------------------------------------------------------------
 # ECS Configuration

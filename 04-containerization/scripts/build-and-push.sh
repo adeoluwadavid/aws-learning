@@ -52,8 +52,8 @@ build_backend() {
 
     cd "$BACKEND_DIR"
 
-    # Build with tag
-    docker build -t "${BACKEND_REPO}:latest" -f Dockerfile.prod .
+    # Build with tag (--platform for cross-architecture builds on Apple Silicon)
+    docker build --platform linux/amd64 -t "${BACKEND_REPO}:latest" -f Dockerfile.prod .
     docker tag "${BACKEND_REPO}:latest" "${BACKEND_REPO}:$(date +%Y%m%d-%H%M%S)"
 
     echo -e "${YELLOW}Pushing backend image...${NC}"
@@ -72,8 +72,9 @@ build_frontend() {
 
     cd "$FRONTEND_DIR"
 
-    # Build with tag (pass API URL for production)
+    # Build with tag (pass API URL for production, --platform for Apple Silicon)
     docker build \
+        --platform linux/amd64 \
         --build-arg VITE_API_URL=/api \
         -t "${FRONTEND_REPO}:latest" \
         -f Dockerfile.prod .

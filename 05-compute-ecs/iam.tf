@@ -20,12 +20,13 @@ data "aws_iam_role" "ecs_task" {
 }
 
 # -----------------------------------------------------------------------------
-# Additional Policy for Secrets Manager Access
+# Additional Policy for Secrets Manager Access (on TASK role, not execution role)
+# The app fetches secrets at runtime, so the task role needs access
 # -----------------------------------------------------------------------------
 
 resource "aws_iam_role_policy" "ecs_secrets_access" {
   name = "${var.project_name}-${var.environment}-ecs-secrets-access"
-  role = data.aws_iam_role.ecs_task_execution.id
+  role = data.aws_iam_role.ecs_task.id  # Changed from execution role to task role
 
   policy = jsonencode({
     Version = "2012-10-17"
